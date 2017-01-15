@@ -1,0 +1,71 @@
+CREATE INDEX post ON posts(forum, date);
+CREATE INDEX post2 ON posts(user, date);
+CREATE INDEX post8 ON posts(thread, date);
+CREATE INDEX user ON users(name, id);
+
+create table threads(
+  id int(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  forum int(7),
+  title VARCHAR(255),
+  isClosed TINYINT(1),
+  user int(7),
+  date DATETIME,
+  message MEDIUMBLOB,
+  slug VARCHAR(255),
+  isDeleted TINYINT(1),
+  dislikes int(7),
+  likes int(7),
+  points int(7),
+  posts int(7)
+);
+
+create table posts (
+  id INT(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  isApproved TINYINT(1),
+  user int(7),
+  date DATETIME,
+  message MEDIUMBLOB,
+  isSpam TINYINT(1),
+  isHighlighted TINYINT(1),
+  thread int(7),
+  forum int(7),
+  isDeleted TINYINT(1),
+  isEdited TINYINT(1),
+  dislikes int(7),
+  likes int(7),
+  parent int(7),
+  points int(7)
+);
+
+create table forums (
+  id INT(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(64),
+  short_name VARCHAR(32),
+  user int(7)
+);
+
+create table follows (
+  id       INT(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  follower INT(7),
+  followee INT(7)
+);
+
+create table subscribes (
+  id     INT(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  thread INT(7),
+  user   INT(7)
+);
+
+create table forSort (
+  id int(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  mpath VARCHAR(255)
+);
+
+create table users(
+  id int(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(32),
+  about MEDIUMBLOB,
+  isAnonymous TINYINT(1),
+  name VARCHAR(64),
+  email VARCHAR(32)
+);
