@@ -5,7 +5,7 @@ package ru.mail.park.database;
  */
 public class Constants {
 
-    public static final String HOST     = "jdbc:mysql://localhost:3306/dbforum?autoReconnect=true&useSSL=false";
+    public static final String HOST     = "jdbc:mysql://localhost:3306/dbforum?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8";
     public static final String USER     = "root";
     public static final String PASSWORD = "";
     public static final String DATABASE = "dbforum";

@@ -47,25 +47,34 @@ public class GeneralService {
         ObjectNode statusNode = mapper.createObjectNode();
 
         try {
-            Database.select("SELECT CONCAT('select count(*) from ',table_name,';')\n" +
-                    "FROM INFORMATION_SCHEMA.TABLES\n" +
-                    "WHERE TABLE_SCHEMA = 'forum'\n" +
-                    "AND TABLE_TYPE = 'BASE TABLE';", result -> {
-                int i = 0;
-                while(result.next()){
-                    Database.select(result.getString(1), result1 -> {
-                        result1.next();
-                        arr.add(result1.getInt(1));
-                    });
+            Database.select("SELECT COUNT(*) count FROM users", result -> {
+                if (result.next()) {
+                    statusNode.put("user", result.getInt("count"));
                 }
             });
-            statusNode.put("forum", (Integer)arr.get(0));
-            statusNode.put("post", (Integer)arr.get(1));
-            statusNode.put("thread", (Integer)arr.get(2));
-            statusNode.put("user", (Integer)arr.get(3));
+
+            Database.select("SELECT COUNT(*) count FROM threads", result -> {
+                if (result.next()) {
+                    statusNode.put("thread", result.getInt("count"));
+                }
+            });
+
+            Database.select("SELECT COUNT(*) count FROM forums", result -> {
+                if (result.next()) {
+                    statusNode.put("forum", result.getInt("count"));
+                }
+            });
+
+            Database.select("SELECT COUNT(*) count FROM posts", result -> {
+                if (result.next()) {
+                    statusNode.put("post", result.getInt("count"));
+                }
+            });
+
             response.put("code", 0);
             response.set("response", statusNode);
             return ResponseEntity.ok().body(mapper.writeValueAsString(response));
+
 
         } catch (SQLException e) {
             e.printStackTrace();
